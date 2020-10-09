@@ -12,11 +12,9 @@ class Product extends Model
         'title', 'article', 'description', 'price', 'warranty', 'in_stock', 'category_id', 'made'
     ];
 
-
     public function category()
     {
         return $this->hasOne('App\Category', 'id', 'category_id');
-//        return $this->belongsTo('App\Category');
     }
 
 }

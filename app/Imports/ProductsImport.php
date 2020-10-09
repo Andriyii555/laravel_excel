@@ -4,18 +4,13 @@ namespace App\Imports;
 
 use App\{Product, Category};
 use Illuminate\Support\Facades\Validator;
-//use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\{ToCollection, WithChunkReading, Importable, WithStartRow};
-//use Maatwebsite\Excel\Concerns\WithChunkReading;
-//use Maatwebsite\Excel\Concerns\Importable;
-//use Maatwebsite\Excel\Concerns\WithStartRow;
 use \DB;
 
 
 class ProductsImport implements ToCollection, WithChunkReading, WithStartRow
 {
-
     use Importable;
 
     protected $product;
@@ -35,11 +30,10 @@ class ProductsImport implements ToCollection, WithChunkReading, WithStartRow
         $this->inStockTrue = "есть в наличие";//@todo::move to lang
     }
 
-//    public function onError(\Throwable $error)
-//    {
-//
-//    }
-
+    /**
+     * @param array $row
+     * @return mixed
+     */
     protected function handleRow($row=[])
     {
         $data['main_cat_title'] = isset($row[0]) ? strval($row[0]) : "";
@@ -57,6 +51,11 @@ class ProductsImport implements ToCollection, WithChunkReading, WithStartRow
         return $data;
     }
 
+    /**
+     * @param string $title
+     * @param null $category_id
+     * @return int
+     */
     protected function createCategory($title="", $category_id=null) :int
     {
         $category = Category::firstOrCreate(
@@ -73,6 +72,9 @@ class ProductsImport implements ToCollection, WithChunkReading, WithStartRow
         return $category->id;
     }
 
+    /**
+     * @param Collection $rows
+     */
     public function collection(Collection $rows)
     {
         $i=0;

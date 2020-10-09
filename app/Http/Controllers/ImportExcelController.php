@@ -19,11 +19,7 @@ class ImportExcelController extends Controller
            'select_file' => 'required|mimes:xls,xlsx|file:max:2000',
         ]);
 
-//        $path = $request->file('select_file')->getRealPath();
         $path = $request->file('select_file')->store('temp');
-
-//        $test  = Excel::import(new ProductsImport, $path);
-//        return redirect('/excel');
 
         $import = new ProductsImport;
         $import->import($path);
@@ -34,16 +30,5 @@ class ImportExcelController extends Controller
         \Session::flash('success', "{$success_cnt} product(s) uploaded successfully.");
 
         return view('import_excel', ['import_errors' => $errors, 'products' => []]);
-//        return redirect('/excel');
-
-
-//
-//        Excel::filter('chunk')->load(database_path('seeds/csv/users.csv'))->chunk(250, function($results) {
-//            foreach ($results as $row) {
-//                dd($row);
-//
-//            }
-//        });
-
     }
 }

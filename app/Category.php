@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use DB;
 
 class Category extends Model
 {
@@ -20,12 +19,6 @@ class Category extends Model
     {
         return $this->hasMany(Category::class);
     }
-
-//    public function subcategory(){
-//
-//        return $this->hasMany('App\Category', 'parent_id');
-//
-//    }
 
     public function childrenCategories()
     {
